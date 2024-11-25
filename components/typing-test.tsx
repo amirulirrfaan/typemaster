@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useTypingStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
-import { RefreshCwIcon, PlayIcon, TimerIcon } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { useTypingStore } from "@/lib/store";
+import { motion } from "framer-motion";
+import { PlayIcon, RefreshCwIcon, TimerIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function TypingTest() {
   const [text, setText] = useState("");
@@ -19,7 +19,8 @@ export function TypingTest() {
   const [typedChars, setTypedChars] = useState<string[]>([]);
   const addResult = useTypingStore((state) => state.addResult);
 
-  const sampleText = "The quick brown fox jumps over the lazy dog. Programming is both an art and a science, requiring creativity and logical thinking. Technology continues to evolve at a rapid pace, transforming the way we live and work.";
+  const sampleText =
+    "The quick brown fox jumps over the lazy dog. Programming is both an art and a science, requiring creativity and logical thinking. Technology continues to evolve at a rapid pace, transforming the way we live and work.";
 
   useEffect(() => {
     setText(sampleText);
@@ -57,8 +58,10 @@ export function TypingTest() {
         const duration = (Date.now() - startTime!) / 1000 / 60; // in minutes
         const wordsTyped = text.split(" ").length;
         const wpm = Math.round(wordsTyped / duration);
-        const accuracy = Math.round(((text.length - mistakes) / text.length) * 100);
-        
+        const accuracy = Math.round(
+          ((text.length - mistakes) / text.length) * 100
+        );
+
         addResult({
           wpm,
           accuracy,
@@ -87,10 +90,10 @@ export function TypingTest() {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const progress = (currentIndex / text.length) * 100;
+  const progress = text.length > 0 ? (currentIndex / text.length) * 100 : 0;
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -149,17 +152,16 @@ export function TypingTest() {
                   <p className="text-sm text-muted-foreground">WPM</p>
                   <p className="text-2xl font-bold">
                     {Math.round(
-                      (text.split(" ").length /
-                        ((endTime! - startTime!) / 1000 / 60))
+                      text.split(" ").length /
+                        ((endTime! - startTime!) / 1000 / 60)
                     )}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Accuracy</p>
                   <p className="text-2xl font-bold">
-                    {Math.round(
-                      ((text.length - mistakes) / text.length) * 100
-                    )}%
+                    {Math.round(((text.length - mistakes) / text.length) * 100)}
+                    %
                   </p>
                 </div>
                 <div>
